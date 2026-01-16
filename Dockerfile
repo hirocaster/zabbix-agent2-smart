@@ -8,6 +8,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN usermod -aG disk zabbix
-RUN chmod +s /usr/sbin/smartctl
+RUN echo "zabbix ALL=(root) NOPASSWD: /usr/sbin/smartctl" >> /etc/sudoers && \
+    sed -i 's/^Defaults\s\+requiretty/#Defaults requiretty/g' /etc/sudoers || true
 
 USER zabbix
