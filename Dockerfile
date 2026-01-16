@@ -7,4 +7,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN usermod -aG disk zabbix
+RUN chmod +s /usr/sbin/smartctl
+
 USER zabbix
