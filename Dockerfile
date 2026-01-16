@@ -8,7 +8,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN usermod -aG disk zabbix
-RUN echo "zabbix ALL=(root) NOPASSWD: /usr/sbin/smartctl" >> /etc/sudoers && \
-    sed -i 's/^Defaults\s\+requiretty/#Defaults requiretty/g' /etc/sudoers || true
+RUN chmod +s /usr/sbin/smartctl
+
+# Don't use sudo in smart plugin
+RUN sed -i 's/Executesudo=1/Executesudo=0/g' /etc/zabbix/zabbix_agent2.d/plugins.d/smart.conf || true
 
 USER zabbix
