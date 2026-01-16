@@ -11,6 +11,7 @@ RUN usermod -aG disk zabbix
 RUN chmod +s /usr/sbin/smartctl
 
 # Don't use sudo in smart plugin
-RUN echo "Plugins.Smart.Path=/usr/sbin/smartctl" >> /etc/zabbix/zabbix_agent2.d/plugins.d/smart.conf
+RUN echo '#!/bin/sh\nshift\nexec "$@"' > /usr/bin/sudo && \
+    chmod +x /usr/bin/sudo
 
 USER zabbix
